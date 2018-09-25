@@ -1,0 +1,7 @@
+beautifulsoup4==4.6.3
+requests==2.19.1
+click==6.7
+pymongo==3.7.1
+clint==0.5.1
+pyfiglet==0.7.5
+python-dateutil==2.6.1
