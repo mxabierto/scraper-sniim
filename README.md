@@ -3,8 +3,8 @@
 Scraper de precios de productos básicos basado en la pagina del SNIIM.
 
 ## Requerimientos
-- [Python 3.5+] (https://www.python.org/)
-- [Docker] (https://www.docker.com/)
+- [Python 3.5+](https://www.python.org/)
+- [Docker](https://www.docker.com/)
 
 ## Datos
 Fuente: [Sistema Nacional de Información e Integración de Mercados](http://www.economia-sniim.gob.mx/)
