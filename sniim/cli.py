@@ -11,7 +11,9 @@ puts(colored.magenta("FECHA: {}".format(datetime.datetime.today().strftime('%Y/%
 
 @click.command()
 @click.option('--historial/--no-historial', default=False)
-def parse(historial):
+@click.option('--solo-ganado', default=False, type=bool, is_flag=True)
+@click.option('--solo-agricultura', default=False, type=bool, is_flag=True)
+def parse(historial, solo_ganado, solo_agricultura):
     agriculture_scrapper = ScrapperMarketAgriculture(is_historic=historial)
     livestock_scrapper = ScrapperMarketLiveStock(is_historic=historial)
 
@@ -20,22 +22,24 @@ def parse(historial):
 
     puts(colored.green("Iniciando scrapeo de Precios de Central de Abastos".upper()))
     with indent(4, quote='>>>>'):
-        puts(colored.blue(" Scrapper: Productos Agricolas"))
-        agriculture_scrapper.scraping()
+        if solo_agricultura and not solo_ganado:
+            puts(colored.blue(" Scrapper: Productos Agricolas"))
+            agriculture_scrapper.scraping()
 
-        with indent(4, quote='>>>>'):
-            puts(colored.green(" Resultados"))
-            puts(colored.green(" Registros Totales: {}".format(agriculture_scrapper.total_records)))
-            puts(colored.green(" Registros Insertados: {}".format(agriculture_scrapper.inserted_records)))
-            puts(colored.red(" Registros Incorrectos:{} ".format(agriculture_scrapper.total_records - agriculture_scrapper.inserted_records)))
+            with indent(4, quote='>>>>'):
+                puts(colored.green(" Resultados"))
+                puts(colored.green(" Registros Totales: {}".format(agriculture_scrapper.total_records)))
+                puts(colored.green(" Registros Insertados: {}".format(agriculture_scrapper.inserted_records)))
+                puts(colored.red(" Registros Incorrectos:{} ".format(agriculture_scrapper.total_records - agriculture_scrapper.inserted_records)))
 
-        puts(colored.blue(" Scrapper: Productos a base de carne"))
-        livestock_scrapper.scraping()
-        with indent(4, quote='>>>>'):
-            puts(colored.green(" Resultados"))
-            puts(colored.green(" Registros Totales: {}".format(livestock_scrapper.total_records)))
-            puts(colored.green(" Registros Insertados: {}".format(livestock_scrapper.inserted_records)))
-            puts(colored.red(" Registros Incorrectos:{} ".format(livestock_scrapper.total_records - livestock_scrapper.inserted_records)))
+        if solo_ganado and not solo_agricultura:
+            puts(colored.blue(" Scrapper: Productos a base de carne"))
+            livestock_scrapper.scraping()
+            with indent(4, quote='>>>>'):
+                puts(colored.green(" Resultados"))
+                puts(colored.green(" Registros Totales: {}".format(livestock_scrapper.total_records)))
+                puts(colored.green(" Registros Insertados: {}".format(livestock_scrapper.inserted_records)))
+                puts(colored.red(" Registros Incorrectos:{} ".format(livestock_scrapper.total_records - livestock_scrapper.inserted_records)))
 
 
 if __name__ == "__main__":
